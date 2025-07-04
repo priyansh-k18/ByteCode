@@ -39,6 +39,7 @@ model Articles{
 
 model Comment{
   id String @id @default(cuid())
+  body String
   author User @relation(fields: [authorId],references: [id])
   authorId String
   article Articles @relation(fields:[articleId],references: [id])
