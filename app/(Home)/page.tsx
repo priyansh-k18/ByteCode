@@ -1,16 +1,17 @@
 import { BlogFooter } from "@/components/home/blog-footer";
-import Navbar from "@/components/home/header/navbar";
 import HeroSection from "@/components/home/hero-section";
 import TopArticles from "@/components/home/top-articles";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Suspense } from "react";
+import { AllArticlesPageSkeleton } from "../articles/page";
+
 
 export default function Home() {
   return (
     <div>
       <main>
-      <Navbar />
+      
       <HeroSection />
 
       <section className="relative py-16 md:py-24">
@@ -21,7 +22,7 @@ export default function Home() {
             </h2>
             <p>Discover our most popular and trending content</p>
           
-          <Suspense fallback={<h1>Loading...</h1>}>
+          <Suspense fallback={<AllArticlesPageSkeleton/>}>
              <TopArticles />
           </Suspense>
           

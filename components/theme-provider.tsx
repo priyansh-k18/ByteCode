@@ -7,5 +7,16 @@ export function ThemeProvider({
   children,
   ...props
 }: React.ComponentProps<typeof NextThemesProvider>) {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    // Show a white background instead of blank/black for debugging
+    return <div style={{ background: "#fff", minHeight: "100vh" }} />;
+  }
+
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>
 }

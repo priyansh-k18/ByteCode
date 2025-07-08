@@ -4,24 +4,26 @@ import React from 'react'
 
 const layout = async ({children}: {children:React.ReactNode}) => {
       const user = await currentUser();
-      if(!user) return null;
+      // Removed: if(!user) return null;
 
-
-
-      const loggedInUser = await prisma.user.findUnique({
-         where:{
-            clerkUserId:user.id
-         },
-      });
-      if(!loggedInUser){
-          await prisma.user.create({
-            data:{
-                name:user.id,
-                clerkUserId:user.id,
-                email:user.emailAddresses[0].emailAddress,
-                imageUrl:user.imageUrl,
-            },
-          });
+      if(user){
+        const loggedInUser = await prisma.user.findUnique({
+           where:{
+              clerkUserId:user.id
+           },
+        });
+        if(!loggedInUser){
+            await prisma.user.create({
+              data:{
+                  name: (user.firstName && user.lastName)
+                    ? `${user.firstName} ${user.lastName}`
+                    : (user.username || user.emailAddresses[0].emailAddress),
+                  clerkUserId: user.id,
+                  email: user.emailAddresses[0].emailAddress,
+                  imageUrl: user.imageUrl,
+              },
+            });
+        }
       }
   return (
     <div>
